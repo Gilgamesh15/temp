@@ -1,0 +1,148 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  male
+  female
+  other
+}
+
+model User {
+  id String @id
+
+  username    String    @unique
+  name        String
+  surname     String
+  description String?
+  avatar      String?
+  birthDate   DateTime?
+  gender      Gender    @default(other)
+
+  followRequestsSent     FollowRequest[] @relation("FollowRequestsSent")
+  followRequestsReceived FollowRequest[] @relation("FollowRequestsReceived")
+  followers              Follower[]      @relation("UserFollowers")
+  followings             Follower[]      @relation("UserFollowings")
+  posts                  Post[]
+  blocks                 Block[]         @relation("BlocksSent")
+  blockedBy              Block[]         @relation("BlocksReceived")
+  likes                  Like[]
+  notifications          Notification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id String @id @default(uuid())
+
+  text   String
+  images String[]
+
+  parent   Post?  @relation("PostChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children Post[] @relation("PostChildren")
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes    Like[]
+
+  parentId String?
+  authorId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Like {
+  id String @id @default(uuid())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId String
+  postId String
+
+  createdAt DateTime @default(now())
+}
+
+model Follower {
+  id String @id @default(uuid())
+
+  follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
+
+  followerId  String
+  followingId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
+model FollowRequest {
+  id String @id @default(uuid())
+
+  sender   User @relation("FollowRequestsSent", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("FollowRequestsReceived", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  senderId   String
+  receiverId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([senderId, receiverId])
+}
+
+model Block {
+  id String @id @default(uuid())
+
+  blocker User @relation("BlocksSent", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked User @relation("BlocksReceived", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  blockerId String
+  blockedId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([blockerId, blockedId])
+}
+
+enum NotificationType {
+  mention
+  followRequestRecieved
+  followRequestAccepted
+  followThreshold
+  like
+  likeThreshold
+  comment
+  commentThreshold
+  block
+  unblock
+  birthday
+}
+
+model Notification {
+  id String @id @default(uuid())
+
+  type NotificationType
+
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  dismissed   Boolean @default(false)
+  isDeleted   Boolean @default(false)
+  isRead      Boolean @default(false)
+
+  userId String
+
+  createdAt DateTime @default(now())
+}
