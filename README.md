@@ -2,11 +2,13 @@
 
 A full-stack social media application built with Next.js, TypeScript, and Prisma that demonstrates advanced frontend and backend development skills.
 
-![Socialite App Screenshot](https://via.placeholder.com/1200x600?text=Socialite)
+<img width="1705" alt="Image" src="https://github.com/user-attachments/assets/31fe1f6a-dd12-47bb-9f73-52edd56db463" />
 
 ## 🚀 Project Overview
 
 Socialite is a comprehensive social networking platform that enables users to connect, share content, and interact in a modern, responsive interface. This project showcases my ability to implement complex features while maintaining clean architecture and code quality.
+
+
 
 ## 💻 Technology Stack
 
@@ -58,6 +60,7 @@ const toggleLike = (postId: string) => {
   toggleLikeAction(postId);
 };
 ```
+<img width="521" alt="Image" src="https://github.com/user-attachments/assets/0c783c69-3064-413f-83f9-178ae0d1bf38" />
 
 - **Context-based state management** with optimistic updates for immediate feedback
 - **Multi-level comment threading** with efficient pagination
@@ -93,6 +96,9 @@ const where: Prisma.PostWhereInput = {
     : {}),
 };
 ```
+<img width="754" alt="Image" src="https://github.com/user-attachments/assets/7628b475-f4fa-4c5b-b9b9-69884a3835cf" />
+
+<img width="1704" alt="Image" src="https://github.com/user-attachments/assets/34c359e9-68d9-4e8a-93e9-9e8ced5c30f3" />
 
 - **Parameter-based filtering** preserved in URL structure for shareable views
 - **Composable filter combinations** for targeted content discovery
@@ -109,6 +115,8 @@ A comprehensive user management system featuring:
 - **Secure authentication flows** with proper authorization checks
 - **Consistent user data** across authentication and application layers
 - **Scalable approach** for handling growing user bases
+
+<img width="1701" alt="Image" src="https://github.com/user-attachments/assets/8a234376-8df1-4dc2-bdea-207667d31222" />
 
 ## 💪 Technical Implementations
 
@@ -178,6 +186,10 @@ Sophisticated media handling with:
 - **Pagination support** for efficient loading of large media collections
 - **Integration with post creation/editing flow**
 - **Responsive image display** across device sizes
+
+
+<img width="937" alt="Image" src="https://github.com/user-attachments/assets/63533adf-b5e4-4e2f-bb83-8756eac9eda8" />
+<img width="512" alt="Image" src="https://github.com/user-attachments/assets/dcb9bf05-064a-4bb0-8ebe-5e7081e28e7c" />
 
 ## 🔍 What Sets This Project Apart
 
